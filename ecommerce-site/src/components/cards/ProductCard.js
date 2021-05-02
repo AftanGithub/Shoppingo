@@ -35,11 +35,7 @@ const ProductCard = ({ product }) => {
     // </Card>
 
     <>
-     {product && product.ratings && product.ratings.length > 0 ? (
-          showAverage(product)
-        ) : (
-          <div className="text-center pt-1 pb-3">No rating yet</div>
-        )}
+     
     <div class="card" style={{width: "18rem"}}>
       <img class="card-img-top" src={images && images.length ? images[0].url : laptop} alt="Card image cap" style={{ height: "150px", objectFit: "cover" }} />
       <div class="card-body">
@@ -51,6 +47,13 @@ const ProductCard = ({ product }) => {
         </Link>
         <a href="#" class="btn add-btn ml-3 "><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><small>Add to Cart</small>
         </a>
+      </div>
+      <div className="card-footer">
+      {product && product.ratings && product.ratings.length > 0 ? (
+          showAverage(product)
+        ) : (
+          <div className="text-center pt-1 pb-3">No rating yet</div>
+        )}
       </div>
     </div>
     </>

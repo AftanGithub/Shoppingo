@@ -88,6 +88,8 @@ h1{
     text-align: center;
     width: 100%;
     font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-weight: 600;
     
 
 }
@@ -112,6 +114,10 @@ h1{
 
 
 .category-text{
+    color: #fd5001;
+}
+
+.orange{
     color: #fd5001;
 }
 

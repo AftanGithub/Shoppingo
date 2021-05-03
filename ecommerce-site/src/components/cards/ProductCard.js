@@ -1,52 +1,69 @@
-import React from "react";
-import { Card } from "antd";
-import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import React,{ useState } from "react";
 import laptop from "../../images/laptop.jpg";
 import { Link } from "react-router-dom";
 import { showAverage } from "../../functions/rating";
+import _ from "lodash";
+import { useSelector, useDispatch } from "react-redux";
 
-const { Meta } = Card;
+
+
 
 const ProductCard = ({ product }) => {
-  // destructure
-  const { images, title, description, slug } = product;
-  return (
-    // <Card
-    //   cover={
-    //     <img
-    //       src={images && images.length ? images[0].url : laptop}
-    //       style={{ height: "150px", objectFit: "cover" }}
-    //       className="p-1"
-    //     />
-    //   }
-    //   actions={[
-    //     <Link to={`/product/${slug}`}>
-    //       <EyeOutlined className="text-info" /> <br /> View Product
-    //     </Link>,
-    //     <>
-    //       <ShoppingCartOutlined className="text-danger" /> <br /> Add to Cart
-    //     </>,
-    //   ]}
-    // >
-    //   <Meta
-    //     title={title}
-    //     description={`${description && description.substring(0, 40)}...`}
-    //   />
-    // </Card>
+  const [tooltip, setTooltip] = useState("Click to add");
 
-    <>
-     
+  // redux
+  const { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+
+  // destructure
+  const { images, title, description, slug,price } = product;
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    // create cart array
+    let cart = [];
+    if (typeof window !== "undefined") {
+      // if cart is in local storage GET it
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+      // push new product to cart
+      cart.push({
+        ...product,
+        count: 1,
+      });
+      // remove duplicates
+      let unique = _.uniqWith(cart, _.isEqual);
+      // save to local storage
+      // console.log('unique', unique)
+      localStorage.setItem("cart", JSON.stringify(unique));
+      setTooltip("Added");
+
+      
+      // add to reeux state
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: unique,
+      });
+    }
+  };
+  
+  return (
+   
     <div class="card" style={{width: "18rem"}}>
       <img class="card-img-top" src={images && images.length ? images[0].url : laptop} alt="Card image cap" style={{ height: "150px", objectFit: "cover" }} />
       <div class="card-body">
-        <h5 class="card-title">{title}</h5>
+        <h4 class="card-title">{`${title} - Rs. ${price}`}</h4>
         <p class="card-text">{`${description && description.substring(0, 30)}...`}</p>
         {/* <a href="#" class="btn view-btn" ></a> */}
         <Link to={`/product/${slug}`} target="_blank" className="btn view-btn ml-3 mb-2">
         <i class="fa fa-eye mr-2" aria-hidden="true"></i><small>View Product</small>
         </Link>
-        <a href="#" class="btn add-btn ml-3 "><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><small>Add to Cart</small>
-        </a>
+       
+            <a href="#" class="btn add-btn ml-3 " onClick={handleAddToCart} title={tooltip}>
+              <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><small>Add to Cart</small>
+            </a>
+       
+       
       </div>
       <div className="card-footer">
       {product && product.ratings && product.ratings.length > 0 ? (
@@ -56,7 +73,7 @@ const ProductCard = ({ product }) => {
         )}
       </div>
     </div>
-    </>
+  
   );
 };
 

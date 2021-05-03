@@ -1,19 +1,22 @@
 import React ,{ useState } from 'react';
-import { Menu } from 'antd';
-import { HomeOutlined, UserOutlined,UserAddOutlined,SettingOutlined,LogoutOutlined } from '@ant-design/icons';
+import { Menu,Badge } from 'antd';
+import { HomeOutlined,ShoppingCartOutlined,
+   UserOutlined,UserAddOutlined,SettingOutlined,
+   LogoutOutlined,ShoppingOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import logo from '../../logo.png';
 import '../../App.css';
 import firebase from 'firebase';
 import {useDispatch,useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import Search from "../forms/Search";
 const { SubMenu } = Menu;
 
 function Header (){
     const [current,setCurrent] = useState("home");
     let dispatch = useDispatch();
     let history = useHistory();
-    let {user} = useSelector((state)=>({...state}));
+    let {user,cart} = useSelector((state)=>({...state}));
 
     const handleClick = (e)=>{
         // console.log(e.key);
@@ -34,6 +37,16 @@ function Header (){
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
         <Menu.Item key="home" icon={<HomeOutlined />}>
          <Link to="/">Home</Link>
+        </Menu.Item>
+        <Menu.Item key="shop" icon={<ShoppingOutlined />}>
+         <Link to="/shop">Shop</Link>
+        </Menu.Item>
+        <Menu.Item key="cart" icon={<ShoppingCartOutlined />}>
+        <Link to="/cart">
+          <Badge count={cart.length} offset={[9, 0]}>
+            Cart
+          </Badge>
+        </Link>
         </Menu.Item>
         {!user && 
         
@@ -79,6 +92,9 @@ function Header (){
         <a className="img-center" href="/">
             <img src={logo} alt="logo" className="img-center"/>
         </a>
+      <span className="float-right p-1">
+        <Search />
+      </span>
       </Menu>
     );
 }

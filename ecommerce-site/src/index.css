@@ -17,7 +17,9 @@ code {
   height: 450px;
   object-fit: contain;
 }
-
+.pointer{
+  cursor: pointer;
+}
 .description-title{
   background-color: #fd5001;
   color: white;

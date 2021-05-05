@@ -49,10 +49,16 @@ const SingleProduct = ({ product,onStarClick,star }) => {
       // show tooltip
       setTooltip("Added");
 
-      // add to reeux state
+      // add to redux state
       dispatch({
         type: "ADD_TO_CART",
         payload: unique,
+      });
+
+       // show cart items in side drawer
+       dispatch({
+        type: "SET_VISIBLE",
+        payload: true,
       });
     }
   };

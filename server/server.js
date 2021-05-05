@@ -6,9 +6,6 @@ const cors = require("cors");
 const { readdirSync } = require("fs");
 require("dotenv").config();
 
-// import routes
-const authRoutes = require("./routes/auth");
-
 // app
 const app = express();
 
@@ -17,7 +14,8 @@ mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(() => console.log("DB CONNECTED"))
   .catch((err) => console.log("DB CONNECTION ERR", err));
@@ -29,7 +27,6 @@ app.use(cors());
 
 // routes middleware
 readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
-app.use(express.static(__dirname + '/ecommerce-site/public'));
 
 // port
 const port = process.env.PORT || 8000;

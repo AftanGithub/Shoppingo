@@ -1,5 +1,5 @@
 import React from 'react';
-import girl from '../../images/front.jpg';
+import shopping from '../../images/front.jpg';
 // import '../../App.css';
 
 const Main = ()=>{
@@ -19,7 +19,7 @@ const Main = ()=>{
                 
                 </div>
                 <div className="col-8">
-                    <img src={girl} height={600} width={900} className="mb-2"></img>
+                    <img src={shopping} height={600} width={900} className="mb-2"></img>
                 </div>
             </div>
             

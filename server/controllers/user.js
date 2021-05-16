@@ -112,7 +112,7 @@ exports.applyCouponToUserCart = async (req, res) => {
     { orderdBy: user._id },
     { totalAfterDiscount },
     { new: true }
-  );
+  ).exec();
 
   res.json(totalAfterDiscount);
 };

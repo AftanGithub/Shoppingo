@@ -31,6 +31,7 @@ import Shop from './pages/Shop';
 import Cart from "./pages/Cart";
 import SideDrawer from "./components/drawer/SideDrawer";
 import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
 import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
 
 const App=()=> {
@@ -91,6 +92,7 @@ useEffect(() => {
      <Route exact path="/shop" component={Shop} />
      <Route exact path="/cart" component={Cart} />
      <UserRoute exact path="/checkout" component={Checkout} />
+     <UserRoute exact path="/payment" component={Payment} />
      <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
    </Switch>
    </>

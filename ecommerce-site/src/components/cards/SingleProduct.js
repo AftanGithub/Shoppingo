@@ -19,7 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product,onStarClick,star }) => {
-  const { title, description, images,_id} = product;
+  const { title, description, images,_id,quantity} = product;
   const [tooltip, setTooltip] = useState("Click to add");
 
   // redux
@@ -97,9 +97,9 @@ const SingleProduct = ({ product,onStarClick,star }) => {
         <Card
           actions={[
             <Tooltip title={tooltip}>
-              <a onClick={handleAddToCart}>
-                <ShoppingCartOutlined className="text-danger" /> <br /> Add to
-                Cart
+              <a onClick={handleAddToCart} disabled={quantity < 1}>
+                <ShoppingCartOutlined className="text-danger" /> <br /> 
+                {quantity < 1 ? 'Out of Stock':'Add to Cart'}
               </a>
             </Tooltip>,
             <Link to="/">

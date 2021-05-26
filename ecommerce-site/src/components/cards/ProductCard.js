@@ -64,8 +64,11 @@ const ProductCard = ({ product }) => {
         <i class="fa fa-eye mr-2" aria-hidden="true"></i><small>View Product</small>
         </Link>
        
-            <a href="#" class="btn add-btn ml-3 " onClick={handleAddToCart} title={tooltip}>
-              <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><small>Add to Cart</small>
+            <a href="#" class="btn add-btn ml-3 " onClick={handleAddToCart} title={tooltip} disabled={product.quantity<1}>
+              <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>
+              <small>
+                {product.quantity < 1 ? 'Out of Stock' : 'Add to  Cart'}
+              </small>
             </a>
        
        

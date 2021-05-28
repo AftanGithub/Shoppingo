@@ -10,8 +10,11 @@ import ProductListItems from './ProductListItems';
 import StarRating from "react-star-ratings";
 import RatingModal from '../modal/RatingModal';
 import { showAverage } from "../../functions/rating";
+import { addToWishlist } from "../../functions/user";
 import _ from "lodash";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 
@@ -21,11 +24,14 @@ const { TabPane } = Tabs;
 const SingleProduct = ({ product,onStarClick,star }) => {
   const { title, description, images,_id,quantity} = product;
   const [tooltip, setTooltip] = useState("Click to add");
+  const [wishlistTooltip,setWishlistTooltip] = useState("Click to Add to wishlist");
 
   // redux
   const { user, cart } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
+    // router
+    let history = useHistory();
 
   
   const handleAddToCart = () => {
@@ -62,6 +68,19 @@ const SingleProduct = ({ product,onStarClick,star }) => {
       });
     }
   };
+
+  
+  const handleAddToWishlist = (e) => {
+    e.preventDefault();
+    addToWishlist(product._id, user.token).then((res) => {
+      console.log("ADDED TO WISHLIST", res.data);
+      toast.success("Added to wishlist");
+      history.push("/user/wishlist");
+    });
+
+    setWishlistTooltip("Added to Wishlist");
+  };
+
 
   return (
     <>
@@ -102,9 +121,13 @@ const SingleProduct = ({ product,onStarClick,star }) => {
                 {quantity < 1 ? 'Out of Stock':'Add to Cart'}
               </a>
             </Tooltip>,
-            <Link to="/">
+            
+            <Tooltip title={wishlistTooltip}>
+              <a onClick={handleAddToWishlist}>
               <HeartOutlined className="text-info" /> <br /> Add to Wishlist
-            </Link>,
+              </a>
+            </Tooltip>
+            ,
             <RatingModal>
                <StarRating
                 name={_id}

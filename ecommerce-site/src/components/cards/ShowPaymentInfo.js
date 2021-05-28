@@ -1,6 +1,6 @@
 import React from "react";
 
-const ShowPaymentInfo = ({ order }) => (
+const ShowPaymentInfo = ({ order , showStatus = true}) => (
   <div>
     <table className="table table-bordered">
         <thead  className="thead-light">
@@ -61,9 +61,11 @@ const ShowPaymentInfo = ({ order }) => (
         </span>
         </td>
         <td>
+        {showStatus && (
         <span className="badge bg-primary text-white">
-            {order.orderStatus}
+          STATUS: {order.orderStatus}
         </span>
+        )}
         </td>
       </tr>
      </tbody>

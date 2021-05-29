@@ -47,6 +47,21 @@ const Cart = ({history}) => {
     </table>
   );
 
+  
+  const saveCashOrderToDb = () => {
+    // console.log("cart", JSON.stringify(cart, null, 4));
+    dispatch({
+      type: "COD",
+      payload: true,
+    });
+    userCart(cart, user.token)
+      .then((res) => {
+        console.log("CART POST RES", res);
+        if (res.data.ok) history.push("/checkout");
+      })
+      .catch((err) => console.log("cart save err", err));
+  };
+
   return (
     <div className="container-fluid pt-2">
       <div className="row">
@@ -82,9 +97,14 @@ const Cart = ({history}) => {
                 </p>
                 <hr />
                     {user ? (
-                        <button className="btn add-btn mt-2" onClick={saveOrderToDb} disabled={!cart.length}>
-                        Proceed to Checkout
-                        </button>
+                        <>
+                          <button className="btn add-btn mt-2" onClick={saveOrderToDb} disabled={!cart.length}>
+                          Proceed to Checkout
+                          </button>
+                          <button className="btn view-btn mt-2" onClick={saveCashOrderToDb} disabled={!cart.length}>
+                            Pay Cash On Delivery
+                          </button>
+                        </>
                     ) : (
                         <button className="btn view-btn mt-2">
                             <Link
